@@ -55,3 +55,26 @@ Build failed
 通过这个链接<http://www.cnblogs.com/yjmyzz/p/compile-hadoop-2_6_0-source-code-in-centos_x64.html>的“五.编译hadoop”，我才知道ant是根据build.xml编译的，打开build.xml，我才看到java version是1.6。。。而我用的是1.8版本的java。果断下载jdk1.6，重新设置环境变量。终于编译出jar包了。
 
 真的是hadoop历史版本啊，还要用历史版本的java编译。当然，这主要告诉我，要看好build.xml的内容，里面已经说了用1.6版本，我用1.8版本自然会出错。
+
+经历2个小时排错后的结果，珍贵的jar包：
+```
+root@sun-virtual-machine:/usr/lib/hadoop-common-release-1.1.2# ll build
+total 4308
+drwxr-xr-x 13 root root    4096 10月 30 23:19 ./
+drwxrwxr-x  9 root root    4096 10月 30 20:35 ../
+drwxr-xr-x  3 root root    4096 10月 30 23:19 ant/
+drwxr-xr-x  2 root root    4096 10月 30 20:35 c++/
+drwxr-xr-x  3 root root    4096 10月 30 23:19 classes/
+drwxr-xr-x 13 root root    4096 10月 30 23:19 contrib/
+drwxr-xr-x  2 root root    4096 10月 30 23:19 empty/
+drwxr-xr-x  2 root root    4096 10月 30 20:35 examples/
+-rw-r--r--  1 root root     407 10月 30 23:19 hadoop-client-1.1.3-SNAPSHOT.jar
+-rw-r--r--  1 root root 4041575 10月 30 23:19 hadoop-core-1.1.3-SNAPSHOT.jar
+-rw-r--r--  1 root root     410 10月 30 23:19 hadoop-minicluster-1.1.3-SNAPSHOT.jar
+-rw-r--r--  1 root root  306839 10月 30 23:19 hadoop-tools-1.1.3-SNAPSHOT.jar
+drwxr-xr-x  4 root root    4096 10月 30 20:35 ivy/
+drwxr-xr-x  3 root root    4096 10月 30 20:35 src/
+drwxr-xr-x  6 root root    4096 10月 30 20:35 test/
+drwxr-xr-x  3 root root    4096 10月 30 23:19 tools/
+drwxr-xr-x  9 root root    4096 10月 30 20:35 webapps/
+```
