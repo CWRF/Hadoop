@@ -50,3 +50,8 @@ Build failed
 ~ cd /usr/lib/hadoop-common-release-1.1.2
 ~ ant
 ```
+写到这里我停下了好久。不管怎么用ant命令在hadoop-common-release-1.1.2里执行，就是没有jar包出来。
+
+通过这个链接<http://www.cnblogs.com/yjmyzz/p/compile-hadoop-2_6_0-source-code-in-centos_x64.html>的“五.编译hadoop”，我才知道ant是根据build.xml编译的，打开build.xml，我才看到java version是1.6。。。而我用的是1.8版本的java。果断下载jdk1.6，重新设置环境变量。终于编译出jar包了。
+
+真的是hadoop历史版本啊，还要用历史版本的java编译。当然，这主要告诉我，要看好build.xml的内容，里面已经说了用1.6版本，我用1.8版本自然会出错。
