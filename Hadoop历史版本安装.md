@@ -78,3 +78,112 @@ drwxr-xr-x  6 root root    4096 10月 30 20:35 test/
 drwxr-xr-x  3 root root    4096 10月 30 23:19 tools/
 drwxr-xr-x  9 root root    4096 10月 30 20:35 webapps/
 ```
+发现hadoop-*.jar都是hadoop-*-1.1.3-SNAPSHOT.jar结尾的，合理的解释就是：上一个版本的release就是下一个版本的SNAPSHOT。
+
+我们修改一下build.xml文件31行，把包名改成hadoop-*-1.1.2.jar，再重新ant
+```
+~ vi build.xml
+
+~ rm -rf build
+~ ant
+```
+```
+total 4304
+drwxr-xr-x 13 root root    4096 10月 31 08:53 ./
+drwxrwxr-x  9 root root    4096 10月 31 08:52 ../
+drwxr-xr-x  3 root root    4096 10月 31 08:53 ant/
+drwxr-xr-x  2 root root    4096 10月 31 08:52 c++/
+drwxr-xr-x  3 root root    4096 10月 31 08:53 classes/
+drwxr-xr-x 13 root root    4096 10月 31 08:53 contrib/
+drwxr-xr-x  2 root root    4096 10月 31 08:53 empty/
+drwxr-xr-x  2 root root    4096 10月 31 08:52 examples/
+-rw-r--r--  1 root root     398 10月 31 08:53 hadoop-client-1.1.2.jar
+-rw-r--r--  1 root root 4035813 10月 31 08:53 hadoop-core-1.1.2.jar
+-rw-r--r--  1 root root     401 10月 31 08:53 hadoop-minicluster-1.1.2.jar
+-rw-r--r--  1 root root  306839 10月 31 08:53 hadoop-tools-1.1.2.jar
+drwxr-xr-x  4 root root    4096 10月 31 08:52 ivy/
+drwxr-xr-x  3 root root    4096 10月 31 08:52 src/
+drwxr-xr-x  6 root root    4096 10月 31 08:52 test/
+drwxr-xr-x  3 root root    4096 10月 31 08:53 tools/
+drwxr-xr-x  9 root root    4096 10月 31 08:52 webapps/
+```
+##快速配置hadoop环境脚本
+1. 配置环境变量
+2. Hadoop的3个配置文件
+3. 创建Hadoop目录
+4. 配置hostname和hosts
+5. 生成SSH免登陆(说明链接<http://blog.csdn.net/wh_19910525/article/details/7433164>)
+6. 第一次启动格式化HDFS
+7. 启动Hadoop的服务
+
+下面的脚本要写在一起
+```
+~ sudo vi /etc/environment
+PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/home/conan/toolkit/jdk16/bin:/home/conan/toolkit/ant184/bin:/home/conan/toolkit/maven3/bin:/home/conan/toolkit/tomcat7/bin:/home/conan/hadoop/hadoop-1.1.2/bin"
+JAVA_HOME=/home/conan/toolkit/jdk16
+ANT_HOME=/home/conan/toolkit/ant184
+MAVEN_HOME=/home/conan/toolkit/maven3
+NUTCH_HOME=/home/conan/toolkit/nutch16
+TOMCAT_HOME=/home/conan/toolkit/tomcat7
+HADOOP_HOME=/home/conan/hadoop/hadoop-1.1.2
+HADOOP_CMD=/home/conan/hadoop/hadoop-1.1.2/bin/hadoop
+HADOOP_STREAMING=/home/conan/hadoop/hadoop-1.1.2/contrib/streaming/hadoop-streaming-1.1.2.jar
+
+~ . /etc/environment
+
+~ vi conf/core-site.xml
+<configuration>
+<property>
+<name>fs.default.name</name>
+<value>hdfs://master:9000</value>
+</property>
+<property>
+<name>hadoop.tmp.dir</name>
+<value>/home/conan/hadoop/tmp</value>
+</property>
+<property>
+<name>io.sort.mb</name>
+<value>256</value>
+</property>
+</configuration>
+
+~ vi conf/hdfs-site.xml
+<configuration>
+<property>
+<name>dfs.data.dir</name>
+<value>/home/conan/hadoop/data</value>
+</property>
+<property>
+<name>dfs.replication</name>
+<value>1</value>
+</property>
+<property>
+<name>dfs.permissions</name>
+<value>false</value>
+</property>
+</configuration>
+
+~ vi conf/mapred-site.xml
+<configuration>
+<property>
+<name>mapred.job.tracker</name>
+<value>hdfs://master:9001</value>
+</property>
+</configuration>
+
+~ mkdir /home/conan/hadoop/data
+~ mkdir /home/conan/hadoop/tmp
+~ sudo chmod 755 /home/conan/hadoop/data/
+~ sudo chmod 755 /home/conan/hadoop/tmp/
+
+~ sudo hostname master
+~ sudo vi /etc/hosts
+192.168.1.210   master
+127.0.0.1       localhost
+
+~ ssh-keygen -t rsa
+~ cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+
+~ bin/hadoop namenode -format
+~ bin/start-all.sh
+```
