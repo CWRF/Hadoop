@@ -204,3 +204,7 @@ Missing blocks: 0
 -------------------------------------------------
 Datanodes available: 0 (0 total, 0 dead)
 ```
+###参考链接
+<http://blog.fens.me/hadoop-history-source-install/>
+
+<http://blog.csdn.net/hitwengqi/article/details/8008203>
