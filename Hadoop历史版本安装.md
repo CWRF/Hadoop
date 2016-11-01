@@ -118,28 +118,21 @@ drwxr-xr-x  9 root root    4096 10月 31 08:52 webapps/
 
 下面的脚本要写在一起
 ```
-~ sudo vi /etc/environment
-PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/home/conan/toolkit/jdk16/bin:/home/conan/toolkit/ant184/bin:/home/conan/toolkit/maven3/bin:/home/conan/toolkit/tomcat7/bin:/home/conan/hadoop/hadoop-1.1.2/bin"
-JAVA_HOME=/home/conan/toolkit/jdk16
-ANT_HOME=/home/conan/toolkit/ant184
-MAVEN_HOME=/home/conan/toolkit/maven3
-NUTCH_HOME=/home/conan/toolkit/nutch16
-TOMCAT_HOME=/home/conan/toolkit/tomcat7
-HADOOP_HOME=/home/conan/hadoop/hadoop-1.1.2
-HADOOP_CMD=/home/conan/hadoop/hadoop-1.1.2/bin/hadoop
-HADOOP_STREAMING=/home/conan/hadoop/hadoop-1.1.2/contrib/streaming/hadoop-streaming-1.1.2.jar
+PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/apache-ant-1.9.7/bin:/usr/lib/jdk1.8.0_111/bin:/usr/lib/apache-maven-3.3.9/bin:/usr/lib/apache-tomcat-8.5.6/bin"
 
-~ . /etc/environment
-
+JAVA_HOME=/usr/lib/jdk1.8.0_111
+```
+/conf在/hadoop-common-release-1.1.2下
+```
 ~ vi conf/core-site.xml
 <configuration>
 <property>
 <name>fs.default.name</name>
-<value>hdfs://master:9000</value>
+<value>hdfs://localhost:9000</value>
 </property>
 <property>
 <name>hadoop.tmp.dir</name>
-<value>/home/conan/hadoop/tmp</value>
+<value>/usr/lib/hadoop/tmp</value>
 </property>
 <property>
 <name>io.sort.mb</name>
@@ -147,11 +140,12 @@ HADOOP_STREAMING=/home/conan/hadoop/hadoop-1.1.2/contrib/streaming/hadoop-stream
 </property>
 </configuration>
 
+
 ~ vi conf/hdfs-site.xml
 <configuration>
 <property>
 <name>dfs.data.dir</name>
-<value>/home/conan/hadoop/data</value>
+<value>/usr/lib/hadoop/data</value>
 </property>
 <property>
 <name>dfs.replication</name>
@@ -167,7 +161,7 @@ HADOOP_STREAMING=/home/conan/hadoop/hadoop-1.1.2/contrib/streaming/hadoop-stream
 <configuration>
 <property>
 <name>mapred.job.tracker</name>
-<value>hdfs://master:9001</value>
+<value>hdfs://localhost:9001</value>
 </property>
 </configuration>
 
@@ -178,12 +172,35 @@ HADOOP_STREAMING=/home/conan/hadoop/hadoop-1.1.2/contrib/streaming/hadoop-stream
 
 ~ sudo hostname master
 ~ sudo vi /etc/hosts
-192.168.1.210   master
 127.0.0.1       localhost
+192.168.1.210   sun-virtual-machine
 
 ~ ssh-keygen -t rsa
 ~ cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
 
 ~ bin/hadoop namenode -format
 ~ bin/start-all.sh
+```
+检测hadoop运行状态
+```
+root@sun-virtual-machine:/usr/lib/hadoop-common-release-1.1.2# jps
+5136 DataNode
+5794 NameNode
+6051 JobTracker
+5268 SecondaryNameNode
+5492 TaskTracker
+6233 Jps
+
+root@sun-virtual-machine:/usr/lib/hadoop-common-release-1.1.2# bin/hadoop dfsadmin -report
+Configured Capacity: 0 (0 KB)
+Present Capacity: 0 (0 KB)
+DFS Remaining: 0 (0 KB)
+DFS Used: 0 (0 KB)
+DFS Used%: �%
+Under replicated blocks: 0
+Blocks with corrupt replicas: 0
+Missing blocks: 0
+
+-------------------------------------------------
+Datanodes available: 0 (0 total, 0 dead)
 ```
