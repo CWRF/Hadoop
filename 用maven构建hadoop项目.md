@@ -75,3 +75,4 @@ root@sun-virtual-machine:/usr/local/workspace/hadoopTest/myapp# mvn clean instal
 [INFO] Final Memory: 15M/37M
 [INFO] ------------------------------------------------------------------------
 ```
+导入eclipse，参考<http://blog.csdn.net/lushuaiyin/article/details/6951196>
