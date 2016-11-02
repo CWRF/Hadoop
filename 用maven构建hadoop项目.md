@@ -17,62 +17,15 @@ root@sun-virtual-machine:/home/sun# mvn
 [ERROR] For more information about the errors and possible solutions, please read the following articles:
 [ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/NoGoalSpecifiedException
 ```
-安装成功
-##用maven搭建hadoop环境
-1、用Maven创建一个标准化的Java项目
+之后可以在命令行里创建maven项目，但是比较麻烦。不如在eclipse里简单。参考链接<http://www.cnblogs.com/mephisto/p/4859564.html>
 
-2、导入项目到eclipse
-
-3、增加hadoop依赖，修改pom.xml
-
-4、下载依赖
-
-5、从Hadoop集群环境下载hadoop配置文件
-
-6、配置本地host
-###用Maven创建一个标准化的Java项目
-这里和在eclipse里创建maven项目是一样的。要有group id，artifact id，version和package
+按照这个参考链接操作，在添加hadoop依赖的时候，配置好pom.xml之后，遇到了很麻烦的缺少jar包的问题。
 ```
-root@sun-virtual-machine:/usr/local/workspace/hadoopTest# mvn archetype:generate -DgroupId=cn.luxh.app -DartifactId=myapp -DpackageName=cn.luxh.app.myapp -Dversion=1.0-SNAPSHOT 
+Description	Resource	Path	Location	Type
+Archive for required library: '/home/sun/.m2/repository/xml-apis/xml-apis/1.3.04/xml-apis-1.3.04.jar' in project 'second' cannot be read or is not a valid ZIP file	second		Build path	Build Path Problem
+```
+解决办法是：复制“xml-apis-1.3.04.jar”，在google搜索jar下载，在终端创建提示的文件夹，把jar包添加进去。
 
-[INFO] Using following parameters for creating project from Archetype: schemacrawler-archetype-maven-project:14.10.05
-[INFO] ----------------------------------------------------------------------------
-[INFO] Parameter: groupId, Value: cn.luxh.app
-[INFO] Parameter: artifactId, Value: myapp
-[INFO] Parameter: version, Value: 1.0-SNAPSHOT
-[INFO] Parameter: package, Value: cn.luxh.app
-[INFO] Parameter: packageInPathFormat, Value: cn/luxh/app
-[INFO] Parameter: package, Value: cn.luxh.app
-[INFO] Parameter: version, Value: 1.0-SNAPSHOT
-[INFO] Parameter: groupId, Value: cn.luxh.app
-[INFO] Parameter: artifactId, Value: myapp
-[INFO] project created from Archetype in dir: /usr/local/workspace/hadoopTest/myapp
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESS
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time: 02:47 min
-[INFO] Finished at: 2016-11-01T23:50:19+08:00
-[INFO] Final Memory: 13M/48M
-[INFO] ------------------------------------------------------------------------
-```
-进入项目，执行mvn命令
-```
-root@sun-virtual-machine:/usr/local/workspace/hadoopTest# cd myapp
-root@sun-virtual-machine:/usr/local/workspace/hadoopTest/myapp# mvn clean install
+在导出jar包的时候，会出现permission denied而无法导出jar包，这是因为文件夹权限的问题。解决的办法是把文件夹的权限改为'777'。
 
-[INFO] 
-[INFO] --- maven-jar-plugin:2.4:jar (default-jar) @ myapp ---
-[INFO] Building jar: /usr/local/workspace/hadoopTest/myapp/target/myapp-1.0-SNAPSHOT.jar
-[INFO] 
-[INFO] --- maven-install-plugin:2.4:install (default-install) @ myapp ---
-[INFO] Installing /usr/local/workspace/hadoopTest/myapp/target/myapp-1.0-SNAPSHOT.jar to /root/.m2/repository/cn/luxh/app/myapp/1.0-SNAPSHOT/myapp-1.0-SNAPSHOT.jar
-[INFO] Installing /usr/local/workspace/hadoopTest/myapp/pom.xml to /root/.m2/repository/cn/luxh/app/myapp/1.0-SNAPSHOT/myapp-1.0-SNAPSHOT.pom
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESS
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time: 5.079 s
-[INFO] Finished at: 2016-11-01T23:59:40+08:00
-[INFO] Final Memory: 15M/37M
-[INFO] ------------------------------------------------------------------------
-```
-导入eclipse，参考<http://blog.csdn.net/lushuaiyin/article/details/6951196>
+最后安装yarn，参考<https://akbarahmed.com/2012/06/26/install-cloudera-cdh4-with-yarn-mrv2-in-pseudo-mode-on-ubuntu-12-04-lts/>
