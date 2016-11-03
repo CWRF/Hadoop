@@ -28,4 +28,13 @@ Archive for required library: '/home/sun/.m2/repository/xml-apis/xml-apis/1.3.04
 
 在导出jar包的时候，会出现permission denied而无法导出jar包，这是因为文件夹权限的问题。解决的办法是把文件夹的权限改为'777'。
 
-最后安装yarn，参考<https://akbarahmed.com/2012/06/26/install-cloudera-cdh4-with-yarn-mrv2-in-pseudo-mode-on-ubuntu-12-04-lts/>
+终端执行yarn的时候遇到了问题，发现直接‘apt-get install yarn’不行，在网上的查询如下：
+MapReduce和YARN是什么关系？
+
+答：YARN并不是下一代MapReduce（MRv2），下一代MapReduce与第一代MapReduce（MRv1）在编程接口、数据处理 引擎（MapTask和ReduceTask）是完全一样的， 可认为MRv2重用了MRv1的这些模块，不同的是资源管理和作业管理系统，MRv1中资源管理和作业管理均是由JobTracker实现的，集两个功能 于一身，而在MRv2中，将这两部分分开了， 其中，作业管理由ApplicationMaster实现，而资源管理由新增系统YARN完成，由于YARN具有通用性，因此YARN也可以作为其他计算 框架的资源管理系统，不仅限于MapReduce，也是其他计算框架，比如Spark、Storm等， 通常而言，我们一般将运行在YARN上的计算框架称为“X on YARN”，比如“MapReduce On YARN”, "Spark On YARN"，“Storm On YARN”等。
+
+Hadoop 2.0由三个子系统组成，分别是HDFS、YARN和MapReduce，其中，YARN是一个崭新的资源管理系统，而MapReduce则只是运行在 YARN上的一个应用，如果把YARN看成一个云操作系统，那么MapReduce可认为是运行在这个操作系统上的App。
+
+yarn的配置参考<https://segmentfault.com/a/1190000000626280>
+
+
