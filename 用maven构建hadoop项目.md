@@ -37,4 +37,6 @@ Hadoop 2.0由三个子系统组成，分别是HDFS、YARN和MapReduce，其中�
 
 yarn的配置参考<https://segmentfault.com/a/1190000000626280>
 
+ 到这里真是尴尬了，虚拟机里我安装的hadoop是1.1.2，而yarn是hadoop2.0新加的。。。配置好了xml文件，去发现hadoop1.1.2的bin文件里没有start-yarn.sh。现在只能重新配置2.0的hadoop了
+
 
