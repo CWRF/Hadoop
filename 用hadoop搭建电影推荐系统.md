@@ -39,4 +39,4 @@ Last contact: Thu Nov 03 21:48:52 CST 2016
 root@sun-virtual-machine:/home/sun/workspace/movie# hadoop fs -cat /usr/lib/hdfs/recommend/step1/part-00000
 cat: File does not exist: /usr/lib/hdfs/recommend/step1/part-00000
 ```
-存在的文件夹说不存在。。。
+存在的文件夹说不存在。参考<http://hadoop.apache.org/docs/r1.0.4/cn/mapred_tutorial.html>可以知道如何在运行hadoop的项目
